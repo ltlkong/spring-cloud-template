@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: gateway-client
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      routes:
+      - id: test
+        uri: http://localhost:9001
+        predicates:
+          - Path=/api/test/**
+        filters:
+          - RewritePath=/api/test/(?<segment>.*), /$\{segment}
+      - id: payment
+        uri: lb:http://payment
+        predicates:
+          - Path=/api/payment/**
+        filters:
+          - RewritePath=/api/payment/(?<segment>.*), /$\{segment}
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.gateway.route.RouteDefinitionLocator: INFO
+    org.springframework.cloud.gateway: TRACE
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
