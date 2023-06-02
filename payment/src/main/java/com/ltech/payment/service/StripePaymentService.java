@@ -1,35 +1,25 @@
 package com.ltech.payment.service;
 
 import com.ltech.payment.model.Transaction;
-import com.ltech.payment.model.dtos.ProductDto;
+import com.ltech.payment.model.dto.ProductDto;
 import com.ltech.payment.model.enumeration.TransactionStatus;
 import com.ltech.payment.repository.TransactionRepository;
 import com.ltech.payment.utils.UrlUtil;
-import com.stripe.Stripe;
-import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
-import com.stripe.model.EventDataObjectDeserializer;
-import com.stripe.model.StripeObject;
-import com.stripe.net.HttpHeaders;
 import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
-import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import com.stripe.model.checkout.Session;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service

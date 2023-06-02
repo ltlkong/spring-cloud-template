@@ -7,8 +7,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Table(name="transaction", indexes = {@Index(name="idx_third_party", columnList = "third_party_id,third_party_type")})
 public class Transaction {
     @Id

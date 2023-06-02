@@ -1,8 +1,8 @@
 spring:
   application:
-    name: payment
+    name: uaa
   datasource:
-    url: jdbc:mariadb://localhost:3306/payment
+    url: jdbc:mariadb://localhost:3306/uaa
     username: test
     password: test
     driver-class-name: org.mariadb.jdbc.Driver
@@ -20,12 +20,15 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
-    instanceId: payment-${random.int[1,1000]}
+    instanceId: uaa-${random.int[1,1000]}
 
 server:
-  port: 0
+  port: 9999
+  error:
+    include-stacktrace=never: never
 
 # Custom properties
-stripe:
-  api-key: sk_test_51NCwUgFcM95za95DJsMrgHKcBRTgqekhcrBKNubltFbMNyJHvbRjhxmB2KctL9Y2I1KbPv69G9eMC7wKpj8k8M6W00CnOBx6zn
-  webhook-secret: whsec_e1562ad561865831a0b1c30b80f75c884bab56ff5aa6eafffc39860651b2b3a8
+jwt:
+  jwtExpirationMs: 3600000
+  refreshTokenExpirationMs: 604800000
+  jwtSecret: ltlqdqefqewfqfqwqqwdqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
