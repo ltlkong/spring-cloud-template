@@ -1,8 +1,7 @@
 package com.ltech.uaa.config;
 
 import com.ltech.uaa.config.filter.JwtAuthenticationFilter;
-import com.ltech.uaa.config.handler.CustomAccessDeniedHandler;
-import com.ltech.uaa.config.handler.CustomHttp403ForbiddenEntryPoint;
+
 import com.ltech.uaa.model.UserPrincipal;
 import com.ltech.uaa.repository.UserRepository;
 import com.ltech.uaa.util.JwtTokenProvider;
@@ -31,8 +30,6 @@ public class SecurityConfiguration {
     private final JwtTokenProvider tokenProvider;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final CustomHttp403ForbiddenEntryPoint customHttp403ForbiddenEntryPoint;
-    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -48,8 +45,6 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .exceptionHandling()
-                .authenticationEntryPoint(customHttp403ForbiddenEntryPoint)
-                .accessDeniedHandler(customAccessDeniedHandler)
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -58,6 +53,8 @@ public class SecurityConfiguration {
 
         return http.build();
     }
+
+
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);

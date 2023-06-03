@@ -25,10 +25,10 @@ eureka:
 server:
   port: 9999
   error:
-    include-stacktrace=never: never
+    include-stacktrace: never
 
 # Custom properties
 jwt:
-  jwtExpirationMs: 3600000
+  accessTokenExpirationMs: 3600000
   refreshTokenExpirationMs: 604800000
   jwtSecret: ltlqdqefqewfqfqwqqwdqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
