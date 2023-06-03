@@ -1,14 +1,16 @@
 package com.ltech.uaa.controller;
 
-import com.ltech.uaa.model.AppUser;
-import com.ltech.uaa.model.dto.AuthenticationResponseDto;
-import com.ltech.uaa.model.dto.LoginRequestDto;
-import com.ltech.uaa.model.dto.SignUpRequestDto;
+import com.ltech.uaa.model.UserPrincipal;
+import com.ltech.uaa.model.dto.*;
+import com.ltech.uaa.model.mapper.UserMapper;
+import com.ltech.uaa.repository.UserRepository;
 import com.ltech.uaa.service.UserService;
-import com.ltech.uaa.util.VerifyUserInfoChain;
+import com.ltech.uaa.util.VerifyUserChain;
+
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,29 +18,47 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class AuthController {
     private final UserService userService;
-    private final VerifyUserInfoChain verifyUserInfoChain;
+    private final VerifyUserChain verifyUserChain;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginRequestDto loginRequest) {
-        AuthenticationResponseDto responseBody =  userService.loginUser(loginRequest);
-        if(responseBody != null)
-            return ResponseEntity.ok().body(responseBody);
+    public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginDto loginRequest) {
+        try {
+            AuthenticationDto responseBody =  userService.loginUser(loginRequest);
 
-        else return ResponseEntity.status(401).body("Invalid username or password");
+            return ResponseEntity.ok().body(responseBody);
+        } catch (Exception ex) {
+            return ResponseEntity.status(401).body(new ErrorDto(ex.getMessage(), ex.getClass().getSimpleName()));
+        }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Validated @RequestBody SignUpRequestDto signUpRequest) {
-        if (userService.usernameExists(signUpRequest.getUsername())) {
-            return ResponseEntity.badRequest().body("Username is already taken");
-        }
-        if (userService.emailExists(signUpRequest.getEmail())) {
-            return ResponseEntity.badRequest().body("Email is already in use");
+    public ResponseEntity<?> registerUser(@Validated @RequestBody SignUpDto signUpRequest) {
+        try {
+            verifyUserChain
+                    .password(signUpRequest.getPassword())
+                    .email(signUpRequest.getEmail())
+                    .verifyPassword()
+                    .verifyEmail()
+                    .isValid();
+
+            userService.registerUser(signUpRequest);
+
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.status(403).body(new ErrorDto(ex.getMessage(), ex.getClass().getSimpleName()));
         }
 
-        userService.registerUser(signUpRequest);
 
-        return ResponseEntity.ok().build();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/me")
+    public  ResponseEntity<?> me(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        UserInfoDto userInfo = userMapper.mapAppUserToUserInfo(userRepository.getReferenceById(userPrincipal.getId()));
+
+        return ResponseEntity.ok().body(userInfo);
     }
 
     @PreAuthorize("isAuthenticated()")

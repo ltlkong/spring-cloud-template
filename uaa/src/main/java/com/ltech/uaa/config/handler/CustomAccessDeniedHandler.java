@@ -3,8 +3,8 @@ package com.ltech.uaa.config.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.ltech.uaa.model.dto.ErrorDto;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -14,13 +14,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @Component
-public class CustomHttp403ForbiddenEntryPoint implements AuthenticationEntryPoint {
-
+public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-                         AuthenticationException authException) throws IOException, ServletException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = objectWriter.writeValueAsString(new ErrorDto(authException.getMessage(), authException.getClass().getSimpleName().toString()));
+        String json = objectWriter.writeValueAsString(new ErrorDto(accessDeniedException.getMessage(), accessDeniedException.getClass().getSimpleName().toString()));
 
         response.setStatus(403);
         response.setContentType("application/json");

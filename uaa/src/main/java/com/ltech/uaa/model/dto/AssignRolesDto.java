@@ -4,12 +4,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Set;
+
+@JsonSerialize
 @Data
 @AllArgsConstructor
-@JsonSerialize
-public class AuthenticationResponseDto {
-    private String access_token;
-    private String refresh_token;
-    private String message;
-
+public class AssignRolesDto {
+    private String userId;
+    private Set<String> roleNames;
 }

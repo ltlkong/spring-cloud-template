@@ -7,7 +7,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @JsonSerialize
-public class ForbiddenResponseDto {
+public class AuthenticationDto {
+    private String access_token;
+    private String refresh_token;
     private String message;
-    private String reason;
+
 }

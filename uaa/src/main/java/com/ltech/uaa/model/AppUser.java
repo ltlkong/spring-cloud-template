@@ -1,8 +1,8 @@
 package com.ltech.uaa.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class AppUser {
+public class AppUser{
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
@@ -34,6 +34,7 @@ public class AppUser {
     @Column(nullable = false)
     private boolean enabled;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
