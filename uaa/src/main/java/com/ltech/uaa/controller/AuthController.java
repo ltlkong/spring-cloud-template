@@ -60,17 +60,4 @@ public class AuthController {
 
         return ResponseEntity.ok().body(userInfo);
     }
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/test1")
-    public ResponseEntity<?> test() {
-
-        return ResponseEntity.ok().body("UAA service authenticated");
-    }
-
-    @GetMapping("/test2")
-    public ResponseEntity<?> test2() {
-
-        return ResponseEntity.ok().body("UAA service");
-    }
 }

@@ -39,7 +39,7 @@ public class AdminUserController {
         Set<UserInfoDto> userInfos = userRepository
                 .findAll()
                 .stream()
-                .map((user) -> userMapper.mapAppUserToUserInfo(user))
+                .map(userMapper::mapAppUserToUserInfo)
                 .collect(Collectors.toSet());
 
         return ResponseEntity.ok().body(userInfos);
