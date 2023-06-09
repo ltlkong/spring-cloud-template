@@ -34,3 +34,14 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+
+# Custom properties
+jwt:
+  accessTokenExpirationMs: 3600000
+  refreshTokenExpirationMs: 604800000
+  jwtSecret: ltlqdqefqewfqfqwqqwdqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+
+uaa:
+  access_token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYTVhYTg2MS02ODkzLTRkNTctOWViNS1iMjhkNzU4ODcxM2QiLCJpYXQiOjE2ODYxMDkyMTEsImV4cCI6MTY4NzkzNjU5OH0.k6QJepmK_Kn7w_eM91_mDHfhXIH4M5Zh4XGzoDdNrpHN9twgTLXcDqi_wiViVuWgZ4b6u4bX8lm7oVoexmcbrA
+  uri: http://localhost:9999/internal

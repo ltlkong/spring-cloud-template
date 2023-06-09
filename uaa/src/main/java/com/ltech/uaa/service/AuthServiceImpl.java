@@ -2,7 +2,6 @@ package com.ltech.uaa.service;
 
 import com.ltech.uaa.model.AppRole;
 import com.ltech.uaa.model.AppUser;
-import com.ltech.uaa.model.UserPrincipal;
 import com.ltech.uaa.model.dto.AuthenticationDto;
 import com.ltech.uaa.model.dto.LoginDto;
 import com.ltech.uaa.model.dto.SignUpDto;
@@ -10,7 +9,6 @@ import com.ltech.uaa.repository.RoleRepository;
 import com.ltech.uaa.repository.UserRepository;
 import com.ltech.uaa.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,22 +16,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
 @RequiredArgsConstructor
 @Transactional
-@Service
-public class UserServiceImpl implements UserService {
+@Service("UserAuthService")
+public class AuthServiceImpl implements AuthService {
 
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
 
-    public AppUser registerUser(SignUpDto signUpRequest) {
+    public AppUser register(SignUpDto signUpRequest) {
         if(userRepository.findByEmail(signUpRequest.getEmail()).isPresent()) throw new IllegalArgumentException("Email exits");
         if(userRepository.findByUsername(signUpRequest.getUsername()).isPresent()) throw new IllegalArgumentException("Username exits");
 
@@ -48,7 +44,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    public AuthenticationDto loginUser(LoginDto loginRequest) {
+    public AuthenticationDto login(LoginDto loginRequest) {
         Authentication authentication =  authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
@@ -59,15 +55,5 @@ public class UserServiceImpl implements UserService {
         return new AuthenticationDto(access_token, refresh_token,"Success!");
     }
 
-    @Override
-    public boolean assignUserRoles(String userId,  Set<String> roleNames) {
-        AppUser user = userRepository.getReferenceById(userId);
-        Set<AppRole> roles = roleRepository.findByNameIn(roleNames);
 
-        if(!roles.isEmpty()) {
-            user.setRoles(roles);
-            return true;
-        }
-        return false;
-    }
 }
