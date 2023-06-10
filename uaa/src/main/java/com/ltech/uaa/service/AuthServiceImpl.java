@@ -1,11 +1,9 @@
 package com.ltech.uaa.service;
 
-import com.ltech.uaa.model.AppRole;
 import com.ltech.uaa.model.AppUser;
 import com.ltech.uaa.model.dto.AuthenticationDto;
 import com.ltech.uaa.model.dto.LoginDto;
 import com.ltech.uaa.model.dto.SignUpDto;
-import com.ltech.uaa.repository.RoleRepository;
 import com.ltech.uaa.repository.UserRepository;
 import com.ltech.uaa.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -14,16 +12,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
-import java.util.Set;
 import java.util.UUID;
 
 @RequiredArgsConstructor
 @Transactional
 @Service("UserAuthService")
 public class AuthServiceImpl implements AuthService {
-
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
@@ -54,6 +49,4 @@ public class AuthServiceImpl implements AuthService {
 
         return new AuthenticationDto(access_token, refresh_token,"Success!");
     }
-
-
 }

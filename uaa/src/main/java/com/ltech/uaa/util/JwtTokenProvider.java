@@ -7,9 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
@@ -42,7 +40,7 @@ public class JwtTokenProvider {
         return generateToken(expiryDate,userPrincipal);
     }
 
-    private String generateToken(Date expiryDate, UserPrincipal userPrincipal) {
+    public String generateToken(Date expiryDate, UserPrincipal userPrincipal) {
         return Jwts.builder()
                 .setSubject(userPrincipal.getId())
                 .setIssuedAt(new Date())

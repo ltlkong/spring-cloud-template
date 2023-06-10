@@ -1,4 +1,6 @@
 package com.ltech.uaa.model;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +9,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+@JsonSerialize
 public class UserPrincipal implements UserDetails {
     private final AppUser user;
 

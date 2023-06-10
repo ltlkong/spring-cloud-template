@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController @AllArgsConstructor
 public class PaymentController {
     private final PaymentService paymentService;
@@ -24,7 +26,7 @@ public class PaymentController {
     }
 
     @GetMapping("/")
-    public String test() {
-        return "Payment service";
+    public String test(HttpServletRequest request) {
+        return request.getHeader("roles");
     }
 }

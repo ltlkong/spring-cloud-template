@@ -11,7 +11,6 @@ import com.ltech.uaa.util.JwtTokenProvider;
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,6 @@ public class InternalController {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final JwtTokenProvider tokenProvider;
-
     private final AuthService authService;
 
     public InternalController(UserMapper userMapper, UserRepository userRepository, JwtTokenProvider tokenProvider, @Qualifier("InternalAuthService") AuthService authService) {
@@ -38,8 +36,7 @@ public class InternalController {
         return ResponseEntity.ok().body(userMapper.mapAppUserToInternalUserInfo(userRepository.getReferenceById(tokenProvider.getUserIdFromToken(token))));
     }
 
-    @PostAuthorize("hasAuthority('INTERNAL')")
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity<?> login(@Validated @RequestBody LoginDto loginRequest) {
         try {
             AuthenticationDto responseBody =  authService.login(loginRequest);

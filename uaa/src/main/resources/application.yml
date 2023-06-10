@@ -32,3 +32,6 @@ jwt:
   accessTokenExpirationMs: 3600000
   refreshTokenExpirationMs: 604800000
   jwtSecret: ltlqdqefqewfqfqwqqwdqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+
+service:
+  names: gateway

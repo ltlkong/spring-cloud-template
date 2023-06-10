@@ -1,19 +1,11 @@
 package com.ltech.uaa.util;
 
-
-import lombok.Getter;
 import org.springframework.stereotype.Component;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Component
 public class VerifyUserChain {
     private String password;
     private String email;
-
     public VerifyUserChain password(String password) {
         this.password = password;
         return this;
